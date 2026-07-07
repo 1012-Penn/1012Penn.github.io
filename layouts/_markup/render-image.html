@@ -1,0 +1,40 @@
+{{- $img := .Page.Resources.GetMatch .Destination -}}
+{{- if not $img -}}
+  {{- $img = resources.Get .Destination -}}
+{{- end -}}
+
+{{- if $img -}}
+  {{- $small := $img.Resize "480x" -}}
+  {{- $medium := $img.Resize "768x" -}}
+  {{- $large := $img.Resize "1200x" -}}
+
+  {{- if .IsBlock -}}
+    <figure>
+      <img
+        src="{{ $medium.RelPermalink }}"
+        srcset="{{ $small.RelPermalink }} 480w, {{ $medium.RelPermalink }} 768w, {{ $large.RelPermalink }} 1200w"
+        sizes="(max-width: 480px) 480px, (max-width: 768px) 768px, 1200px"
+        alt="{{ .PlainText }}"
+        loading="lazy"
+      >
+      {{- with .Title }}<figcaption>{{ . }}</figcaption>{{ end -}}
+    </figure>
+  {{- else -}}
+    <img
+      src="{{ $medium.RelPermalink }}"
+      srcset="{{ $small.RelPermalink }} 480w, {{ $medium.RelPermalink }} 768w, {{ $large.RelPermalink }} 1200w"
+      sizes="(max-width: 480px) 480px, (max-width: 768px) 768px, 1200px"
+      alt="{{ .PlainText }}"
+      {{- with .Title }} title="{{ . }}"{{ end -}}
+      loading="lazy"
+    >
+  {{- end -}}
+{{- else -}}
+  {{- /* Fallback: 直接渲染 */ -}}
+  <img
+    src="{{ .Destination | safeURL }}"
+    alt="{{ .PlainText }}"
+    {{- with .Title }} title="{{ . }}"{{ end -}}
+    loading="lazy"
+  >
+{{- end -}}

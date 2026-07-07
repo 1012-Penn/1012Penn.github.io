@@ -1,0 +1,27 @@
+{{- $u := urls.Parse .Destination -}}
+{{- $isExternal := $u.IsAbs -}}
+
+{{- /* 外部链接或锚点链接直接渲染 */ -}}
+{{- if or $isExternal (strings.HasPrefix .Destination "#") -}}
+  <a href="{{ .Destination | safeURL }}"
+    {{- with .Title }} title="{{ . }}"{{ end -}}
+    {{- if $isExternal }} target="_blank" rel="noopener noreferrer"{{ end -}}
+  >
+    {{- .Text | safeHTML -}}
+  </a>
+{{- else -}}
+  {{- /* 内部链接：通过 Hugo ref 解析 */ -}}
+  {{- with .Page -}}
+    {{- $ref := try (ref . .Destination) -}}
+    {{- with $ref -}}
+      <a href="{{ . | safeURL }}"
+        {{- with $.Title }} title="{{ . }}"{{ end -}}
+      >
+        {{- $.Text | safeHTML -}}
+      </a>
+    {{- else -}}
+      {{- /* 链接无法解析时降级为纯文本 */ -}}
+      <span class="broken-link">{{- $.Text | safeHTML -}}</span>
+    {{- end -}}
+  {{- end -}}
+{{- end -}}

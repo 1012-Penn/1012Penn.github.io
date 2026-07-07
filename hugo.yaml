@@ -1,0 +1,139 @@
+baseURL: "https://1012Penn.github.io/"
+title: "1012Penn 的技术博客"
+theme: ["PaperMod"]
+defaultContentLanguage: zh-cn
+hasCJKLanguage: true
+paginate: 10
+
+enableRobotsTXT: true
+enableEmoji: true
+buildDrafts: false
+buildFuture: false
+buildExpired: false
+
+# 缓存配置
+caches:
+  images:
+    dir: :cacheDir/images
+
+# 输出格式 —— JSON 供搜索使用
+outputs:
+  home:
+    - HTML
+    - RSS
+    - JSON
+
+# 自定义分类法
+taxonomies:
+  tag: tags
+  category: categories
+  series: series
+
+# Markdown / Goldmark 配置
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+    parser:
+      wrapStandAloneImageWithinParagraph: false
+    renderHooks:
+      link:
+        useEmbedded: fallback
+      image:
+        useEmbedded: fallback
+  highlight:
+    noClasses: false
+    lineNos: true
+    style: dracula
+
+# 编译优化
+minify:
+  disableXML: true
+  minifyOutput: true
+
+params:
+  env: production
+  description: "1012Penn 的个人技术博客，专注于 Go、后端开发、分布式系统"
+  keywords: [Go, 后端开发, 分布式系统, Kubernetes, 技术博客]
+  author: "1012Penn"
+  DateFormat: "2006-01-02"
+  defaultTheme: auto
+  disableThemeToggle: false
+
+  # 文章元信息
+  ShowReadingTime: true
+  ShowWordCount: true
+  ShowShareButtons: true
+  ShowPostNavLinks: true
+  ShowBreadCrumbs: true
+  ShowCodeCopyButtons: true
+  ShowRssButtonInSectionTermList: true
+  UseHugoToc: true
+  disableSpecial1stPost: false
+  disableScrollToTop: false
+  hideFooter: false
+
+  # 首页模式 —— Home-Info 模式
+  homeInfoParams:
+    Title: "1012Penn"
+    Content: >
+      专注于 Go、后端架构与分布式系统的技术博客。
+      记录学习笔记与工程实践。
+
+  # 社交链接
+  socialIcons:
+    - name: github
+      url: "https://github.com/1012Penn"
+    - name: x
+      url: "https://x.com/1012Penn"
+    - name: rss
+      url: "/index.xml"
+
+  # 封面图
+  cover:
+    hiddenInList: false
+    hiddenInSingle: false
+    responsiveImages: true
+    linkFullImages: true
+    relative: true
+
+  # Fuse.js 搜索
+  fuseOpts:
+    isCaseSensitive: false
+    shouldSort: true
+    threshold: 0.3
+    location: 0
+    distance: 1000
+    minMatchCharLength: 2
+    limit: 10
+    keys: ["title", "permalink", "summary", "content"]
+
+  # 编辑链接
+  editPost:
+    URL: "https://github.com/1012Penn/1012Penn.github.io/tree/main/content"
+    Text: "建议修改"
+    appendFilePath: true
+
+# 导航菜单
+menu:
+  main:
+    - identifier: posts
+      name: 文章
+      url: /posts/
+      weight: 10
+    - identifier: tags
+      name: 标签
+      url: /tags/
+      weight: 20
+    - identifier: series
+      name: 系列
+      url: /series/
+      weight: 30
+    - identifier: archives
+      name: 归档
+      url: /archives/
+      weight: 40
+    - identifier: search
+      name: 搜索
+      url: /search/
+      weight: 50
